@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-/* lab 2.1.14 (без номера 2) */
+#include <time.h>
 
+
+/* lab 3.9.1 */
 int main()
-{ 
+{
   int n;
   int bool=1;
+  srand(time(NULL));
   while (bool == 1)
   {
     printf("Введите размерность матрицы n x n, n = ");
@@ -18,7 +21,6 @@ int main()
     else 
       bool = 0;
   }
-  srand(42);
   printf("\n");
   int mas[n][n];
   for(int i = 0; i< n; i++)
@@ -28,8 +30,7 @@ int main()
       printf("Элемент массива mas[%d][%d]: ", i+1, j+1);
       // scanf("%d",&mas[i][j]);
       
-      int r=rand();
-      mas[i][j]= r%100;
+      mas[i][j]= rand()%200;
       printf("%3d ", mas[i][j]);
       printf("\n");
     }
@@ -44,22 +45,43 @@ int main()
     printf("\n");
   }
 
-  int tmp = mas[0][0];
-  for(int i = 0; i<n; i++)
+
+
+
+  int temp = mas[1][0];
+  int k;
+  for(int i = 1; i <= n/2; i++)
   {
-    if(mas[i][i] > tmp)
-      tmp = mas[i][i];
+    for(int j = 0, k = n-1; j < i; j++,k)
+    {
+      if(mas[i][j] < temp)
+       temp = mas[i][j];
+      else 
+        mas[i][j]=0;
+      if(mas[i][k] < temp)
+       temp = mas[i][k];
+       else 
+        mas[i][j]=0;
+    }  
   }
-  for( int j = n-1; j >= 0;j--)
+
+  for(int i = n-2; i > n/2; i--)
   {
-    if(mas[j][j] > tmp)
-      tmp = mas[j][j];
+    for(int j = 0, k = n-1; j < n-i-1; j++,k)
+    {
+      if(mas[i][j] < temp)
+       temp = mas[i][j];
+       else 
+        mas[i][j]=0;
+       if(mas[i][j] < temp)
+       temp = mas[i][k];
+       else 
+        mas[i][j]=0;
+    }  
   }
-  int p=n / 2;
-  mas[p][p]=tmp;
-  printf("Наибольший элемент на главной и побочной диагоналях равен: %d \n", tmp);
-  printf("Итоговый массив выглядит следующим образом: \n");
-  for(int i=0; i<n;i++)
+
+printf("\n");  
+for(int i=0; i<n;i++)
   {
     for(int j=0; j<n; j++)
     {
@@ -68,4 +90,7 @@ int main()
     printf("\n");
   }
 
+  printf("Наименьшее значение элемента в заданной области: %d \n",temp);
+ 
+  
 }
